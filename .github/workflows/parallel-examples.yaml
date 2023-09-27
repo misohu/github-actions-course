@@ -1,0 +1,26 @@
+name: Parallel Jobs Example
+
+on:
+  workflow_dispatch:  # This event triggers the workflow manually
+
+jobs:
+  linting:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Linting
+        run: echo "Running linting..."
+
+  unit_tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Unit Tests
+        run: echo "Running unit tests..."
+
+  integration_tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set Up Test Environment
+        run: echo "Setting up test environment..."
+
+      - name: Integration Tests
+        run: echo "Running integration tests..."

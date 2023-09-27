@@ -1,0 +1,13 @@
+name: Manual Trigger Example
+
+on:
+  workflow_dispatch:  # This event triggers the workflow manually
+
+jobs:
+  say_hello_job:
+    runs-on: ubuntu-latest  # The runner environment (Ubuntu in this case)
+
+    steps:
+      - name: Echo Hello World
+        run: echo "Hello, World!"
+
