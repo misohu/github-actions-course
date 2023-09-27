@@ -9,11 +9,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: List space
-        run: ls
+        # workspace is  a special variable containing the path to the working directory on the runner machine
+        run: ls ${{ github.workspace }}
       - name: Checkout source code 
         uses: actions/checkout@v4
       - name: List space again
-        run: ls
+        run: ls ${{ github.workspace }}
 
 
 
