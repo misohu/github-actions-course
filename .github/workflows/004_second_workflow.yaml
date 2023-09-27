@@ -1,0 +1,15 @@
+name: Event examle 2
+
+on:
+  workflow_run:
+    workflows: ["Event examle 1"]
+    types:
+      - completed
+
+jobs:
+  echo-hi-all:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo "Hi all"
+        run: |
+          echo "Hi all"

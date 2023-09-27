@@ -1,0 +1,23 @@
+name: Event examle 1
+
+on:
+  workflow_dispatch:
+    inputs:
+      username:
+        description: 'Username'
+        default: 'Michal'
+        required: true
+        type: string
+      age:
+        description: 'Age'
+        required: true
+        type: number
+
+jobs:
+  echo-username-age:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo Username and Age
+        run: |
+          echo "Username: ${{ github.event.inputs.username }}"
+          echo "Age: ${{ github.event.inputs.age }}"
