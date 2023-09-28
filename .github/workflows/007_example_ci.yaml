@@ -68,4 +68,40 @@ jobs:
       - name: Load image
         run: |
           docker load --input /tmp/fast-api-example.tar
-          docker image ls -a 
+          docker image ls -a
+          docker run -p 8080:80 misohu/fast-api-example:latest
+          curl --fail 'http://localhost:8080/'
+  
+  vulnerability-scan:
+    runs-on: ubuntu-22.04
+    needs: [build-image]
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: fast-api-example
+          path: /tmp
+      - name: Load image
+        run: |
+          docker load --input /tmp/fast-api-example.tar
+          docker image ls -a
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: misohu/fast-api-example:latest
+          format: 'template'
+          template: '@/contrib/sarif.tpl'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH'
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: 'trivy-results.sarif'
+  
+  publish-image:
+    runs-on: ubuntu-22.04
+    needs: [integration-tests, vulnerability-scan]
+    steps:
+      - name: Publish image
+        run: |
+          echo "Hello"
