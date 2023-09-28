@@ -2,6 +2,12 @@ name: Example CI
 
 on:
   workflow_dispatch:
+    inputs:
+      image-tag:
+        description: "Tag for image"
+        default: "latest"
+        type: string
+        required: true
 
 jobs:
   lint:
@@ -48,7 +54,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: backend
-          tags: misohu/fast-api-example:latest
+          tags: misohu/fast-api-example:${{ inputs.mlflow-version }} 
           outputs: type=docker,dest=/tmp/fast-api-example.tar
       - name: Upload artifact
         uses: actions/upload-artifact@v3
@@ -69,7 +75,7 @@ jobs:
         run: |
           docker load --input /tmp/fast-api-example.tar
           docker image ls -a
-          docker run -p 8080:80 -d misohu/fast-api-example:latest
+          docker run -p 8080:80 -d misohu/fast-api-example:${{ inputs.mlflow-version }} 
           sleep 5
           curl --fail 'http://localhost:8080/'
   
