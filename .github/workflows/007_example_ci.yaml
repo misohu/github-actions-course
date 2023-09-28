@@ -47,7 +47,7 @@ jobs:
       - name: Build and export
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: backend
           tags: misohu/fast-api-example:latest
           outputs: type=docker,dest=/tmp/fast-api-example.tar
       - name: Upload artifact
