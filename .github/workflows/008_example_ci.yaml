@@ -75,7 +75,7 @@ jobs:
         run: |
           docker load --input /tmp/image.tar
           docker image ls -a
-          docker run -p 8080:80 -d ${{ vars.DOCKER_HUB_IMAGE }}:${{ inputs.mlflow-version }} 
+          docker run -p 8080:80 -d ${{ vars.DOCKER_HUB_IMAGE }}:${{ inputs.image-tag }} 
           sleep 5
           curl --fail 'http://localhost:8080/'
   
@@ -95,7 +95,7 @@ jobs:
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: ${{ vars.DOCKER_HUB_IMAGE }}:${{ inputs.mlflow-version }}
+          image-ref: ${{ vars.DOCKER_HUB_IMAGE }}:${{ inputs.image-tag }}
           format: 'json'
           output: 'trivy-results.json'
           severity: 'CRITICAL,HIGH'
@@ -104,17 +104,25 @@ jobs:
         with:
           name: trivy-results
           path: ${{ github.workspace }}/trivy-results.json
-
-      # This one works only in public repositories 
-      # - name: Upload Trivy scan results to GitHub Security tab
-      #   uses: github/codeql-action/upload-sarif@v2
-      #   with:
-      #     sarif_file: 'trivy-results.sarif'
   
   publish-image:
     runs-on: ubuntu-22.04
     needs: [integration-tests, vulnerability-scan]
     steps:
-      - name: Publish image
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: image
+          path: /tmp
+      - name: Load image
         run: |
-          echo "Hello"
+          docker load --input /tmp/image.tar
+          docker image ls -a
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+      - name: Docker push image to DockerHub
+        run: |
+          docker push ${{ vars.DOCKER_HUB_IMAGE }}:${{ inputs.image-tag }}
