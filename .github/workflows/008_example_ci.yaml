@@ -54,13 +54,13 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: backend
-          tags: misohu/fast-api-example:${{ inputs.mlflow-version }} 
-          outputs: type=docker,dest=/tmp/fast-api-example.tar
+          tags: ${{ vars.DOCKER_HUB_IMAGE }}:${{ inputs.image-tag }} 
+          outputs: type=docker,dest=/tmp/image.tar
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: fast-api-example
-          path: /tmp/fast-api-example.tar
+          name: image
+          path: /tmp/image.tar
   
   integration-tests:
     runs-on: ubuntu-22.04
@@ -69,13 +69,13 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v3
         with:
-          name: fast-api-example
+          name: image
           path: /tmp
       - name: Load image
         run: |
-          docker load --input /tmp/fast-api-example.tar
+          docker load --input /tmp/image.tar
           docker image ls -a
-          docker run -p 8080:80 -d misohu/fast-api-example:${{ inputs.mlflow-version }} 
+          docker run -p 8080:80 -d ${{ vars.DOCKER_HUB_IMAGE }}:${{ inputs.mlflow-version }} 
           sleep 5
           curl --fail 'http://localhost:8080/'
   
@@ -86,24 +86,24 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v3
         with:
-          name: fast-api-example
+          name: image
           path: /tmp
       - name: Load image
         run: |
-          docker load --input /tmp/fast-api-example.tar
+          docker load --input /tmp/image.tar
           docker image ls -a
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: misohu/fast-api-example:${{ inputs.mlflow-version }}
+          image-ref: ${{ vars.DOCKER_HUB_IMAGE }}:${{ inputs.mlflow-version }}
           format: 'json'
-          output: '/tmp/trivy-results.json'
+          output: 'trivy-results.json'
           severity: 'CRITICAL,HIGH'
       - name: Upload results
         uses: actions/upload-artifact@v3
         with:
           name: trivy-results
-          path: /tmp/trivy-results.json
+          path: ${{ github.workspace }}/trivy-results.json
 
       # This one works only in public repositories 
       # - name: Upload Trivy scan results to GitHub Security tab
