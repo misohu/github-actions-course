@@ -35,3 +35,15 @@ jobs:
         run: |
           cd backend
           tox -e unit
+  
+  build-image:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout source code 
+        uses: actions/checkout@v4
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Build image
+        run: |
+          cd backend
+          docker build -t misohu/fast-api-example:0.1 . 
