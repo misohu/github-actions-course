@@ -35,3 +35,5 @@ jobs:
         with:
           name: coverage
           path: ${{ github.workspace }}
+      - name: List folder 
+        run: ls -la ${{ github.workspace }}
