@@ -95,7 +95,7 @@ jobs:
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: misohu/fast-api-example:latest
+          image-ref: misohu/fast-api-example:${{ inputs.mlflow-version }}
           format: 'json'
           output: '/tmp/trivy-results.json'
           severity: 'CRITICAL,HIGH'
