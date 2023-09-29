@@ -1,0 +1,14 @@
+name: Build variables
+
+on:
+  workflow_dispatch:
+    
+jobs:
+  print-variables:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Print variables
+        run: |
+          echo ${{ github.ref }}
+          echo ${{ github }}
+          echo ${{ runner }}
