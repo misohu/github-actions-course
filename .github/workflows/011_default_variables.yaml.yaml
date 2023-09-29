@@ -10,5 +10,5 @@ jobs:
       - name: Print variables
         run: |
           echo ${{ github.ref }}
-          echo ${{ github }}
-          echo ${{ runner }}
+          echo ${{ toJson(github) }}
+          echo ${{ toJson(runner) }}
