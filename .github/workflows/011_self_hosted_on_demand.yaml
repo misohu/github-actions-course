@@ -1,4 +1,4 @@
-name: Self-hosted demo 1
+name: Self-hosted demo 2
 
 on:
   workflow_dispatch:
