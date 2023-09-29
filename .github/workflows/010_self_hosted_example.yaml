@@ -1,0 +1,27 @@
+name: Self-hosted demo 1
+
+on:
+  workflow_dispatch:
+    
+jobs:
+  unit-tests:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout source code 
+        uses: actions/checkout@v4
+      - name: Install Python 3.10
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install tox
+        run: pip install tox
+      - name: Run unit tests
+        run: |
+          cd backend
+          tox -e unit
+          ls -la ${{ github.workspace }}/backend
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage
+          path: ${{ github.workspace }}/backend/.coverage
