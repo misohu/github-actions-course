@@ -1,0 +1,53 @@
+name: Self-hosted demo 1
+
+on:
+  workflow_dispatch:
+    
+jobs:
+  start-runner:
+    name: Start self-hosted EC2 runner
+    runs-on: self-hosted
+    outputs:
+      label: ${{ steps.start-ec2-runner.outputs.label }}
+      ec2-instance-id: ${{ steps.start-ec2-runner.outputs.ec2-instance-id }}
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2.2.0
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      - name: Start EC2 runner
+        id: start-ec2-runner
+        uses: machulav/ec2-github-runner@v2.3.3
+        with:
+          mode: start
+          github-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+          ec2-image-id: ${{ vars.AWS_EC2_IMAGE_ID }}
+          ec2-instance-type: ${{ vars.AWS_EC2_INSTANCE_TYPE }}
+          subnet-id: ${{ vars.AWS_DEFAULT_SUBNET_ID }}
+          security-group-id: ${{ vars.AWS_SECURITY_GROUP_ID }}
+
+  integration-tests:
+    name: Run tests
+    needs: [start-runner]
+    runs-on: ${{ needs.start-runner.outputs.label }}
+    steps:
+      - name: Checkout source code 
+        uses: actions/checkout@v4
+      - name: Install Python 3.10
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install tox
+        run: pip install tox
+      - name: Run unit tests
+        run: |
+          cd backend
+          tox -e unit
+          ls -la ${{ github.workspace }}/backend
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage
+          path: ${{ github.workspace }}/backend/.coverage
