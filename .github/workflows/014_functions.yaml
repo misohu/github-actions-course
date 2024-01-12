@@ -13,7 +13,7 @@ jobs:
       MESSAGE: 'Hello, World!'
       FILE_CONTENT: 'This is the content of the file.'
       ARRAY: ('element1', 'element2', 'element3')
-      TEST_JSON_DATA: '{"status": "amazing"}'
+      TEST_JSON_DATA: '{"numbers": ["1", "2", "3"]}'
 
     steps:
       - name: Checkout Repository
@@ -40,10 +40,6 @@ jobs:
         run: | 
           echo "${{ format('Formatted: {0}', env.MESSAGE) }}"
 
-      - name: Use join function
-        run: | 
-          echo "${{ join(', ', env.ARRAY) }}"
-
       - name: Use toJSON function
         id: tojson
         run: |
@@ -52,7 +48,11 @@ jobs:
 
       - name: Use fromJSON function
         run: |
-          echo "${{ fromJSON(steps.tojson.outputs.result) }}"
+          ${{ fromJSON(steps.tojson.outputs.result) }}
+        
+      - name: Use join function
+        run: | 
+          echo "${{ join(', ', steps.tojson.outputs.result.numbers) }}"
 
       - name: Use hashFiles function
         run: |
