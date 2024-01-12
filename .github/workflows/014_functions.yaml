@@ -52,7 +52,7 @@ jobs:
         
       - name: Use join function
         run: | 
-          echo "${{ join(env.ARRAY, ' ') }}"
+          echo "${{ join(('element1', 'element2', 'element3'), ' ') }}"
 
       - name: Use hashFiles function
         run: |
