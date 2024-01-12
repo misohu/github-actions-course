@@ -48,11 +48,11 @@ jobs:
 
       - name: Use fromJSON function
         run: |
-          echo "${{ fromJSON(steps.tojson.outputs.result) }}"
+          echo "${{ fromJSON(steps.tojson.outputs.result).numbers }}"
         
       - name: Use join function
         run: | 
-          echo "${{ join(steps.tojson.outputs.result.numbers, ', ') }}"
+          echo "${{ join(env.ARRAY, ', ') }}"
 
       - name: Use hashFiles function
         run: |
