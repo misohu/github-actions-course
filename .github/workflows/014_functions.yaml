@@ -13,6 +13,7 @@ jobs:
       MESSAGE: 'Hello, World!'
       FILE_CONTENT: 'This is the content of the file.'
       ARRAY: ('element1', 'element2', 'element3')
+      TEST_JSON_DATA: '{"status": "amazing"}'
 
     steps:
       - name: Checkout Repository
@@ -25,32 +26,32 @@ jobs:
 
       - name: Use contains function
         run: | 
-          echo "Contains 'Hello': ${{ contains('Hello', env.MESSAGE) }}"
+          echo "${{ contains('Hello', env.MESSAGE) }}"
 
       - name: Use startsWith function
         run: | 
-          echo "Starts with 'This': ${{ startsWith('This', env.FILE_CONTENT) }}"
+          echo "${{ startsWith('This', env.FILE_CONTENT) }}"
 
       - name: Use endsWith function
         run: | 
-          echo "Ends with 'file.': ${{ endsWith('file.', env.FILE_CONTENT) }}"
+          echo "${{ endsWith('file.', env.FILE_CONTENT) }}"
 
       - name: Use format function
         run: | 
-          echo "Formatted Message: ${{ format('Formatted: {0}', env.MESSAGE) }}"
+          echo "${{ format('Formatted: {0}', env.MESSAGE) }}"
 
       - name: Use join function
         run: | 
-          echo "Joined array: ${{ join(', ', env.ARRAY) }}"
+          echo "${{ join(', ', env.ARRAY) }}"
 
       - name: Use toJSON function
         run: |
-          echo "JSON representation of array: ${{ toJSON(env.ARRAY) }}"
+          echo "${{ toJSON(env.TEST_JSON_DATA) }}"
 
       - name: Use fromJSON function
         run: |
           ORIGINAL_ARRAY=("Item1" "Item2" "Item3")
-          JSON_ARRAY=${{ toJSON(env.ARRAY) }}
+          JSON_ARRAY=${{ toJSON(env.TEST_JSON_DATA) }}
           CONVERTED_ARRAY=$(fromJSON "${JSON_ARRAY}")
           echo "Original array: ${ORIGINAL_ARRAY[@]}"
           echo "Converted array: ${CONVERTED_ARRAY[@]}"
