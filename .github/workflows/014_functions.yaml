@@ -1,6 +1,7 @@
 name: Build with Functions
 
-on: [push]
+on:
+  workflow_dispatch:
 
 jobs:
   build:
@@ -11,14 +12,12 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set Variables
-        run: |
-          # Set some variables for demonstration
-          MESSAGE="Hello, World!"
-          FILE_CONTENT="This is the content of the file."
+        id: set-vars
+        run: echo "MESSAGE=Hello, World!\nFILE_CONTENT=This is the content of the file." >> $GITHUB_ENV
 
       - name: Use contains function
         run: |
-          if contains('Hello', ${{ env.MESSAGE }}); then
+          if echo "${{ env.MESSAGE }}" | grep -q "Hello"; then
             echo "Message contains 'Hello'"
           else
             echo "Message does not contain 'Hello'"
@@ -26,7 +25,7 @@ jobs:
 
       - name: Use startsWith function
         run: |
-          if startsWith('This', ${{ env.FILE_CONTENT }}); then
+          if [[ "${{ env.FILE_CONTENT }}" == This* ]]; then
             echo "File content starts with 'This'"
           else
             echo "File content does not start with 'This'"
@@ -34,7 +33,7 @@ jobs:
 
       - name: Use endsWith function
         run: |
-          if endsWith('file.', ${{ env.FILE_CONTENT }}); then
+          if [[ "${{ env.FILE_CONTENT }}" == *file. ]]; then
             echo "File content ends with 'file.'"
           else
             echo "File content does not end with 'file.'"
@@ -42,24 +41,24 @@ jobs:
 
       - name: Use format function
         run: |
-          FORMATTED_MESSAGE=$(format('Formatted: {}', ${{ env.MESSAGE }}))
+          FORMATTED_MESSAGE=$(echo "Formatted: ${{ env.MESSAGE }}")
           echo "${FORMATTED_MESSAGE}"
 
       - name: Use join function
         run: |
           ARRAY=("Item1" "Item2" "Item3")
-          JOINED=$(join(', ', ${{ toJSON(ARRAY) }}))
+          JOINED=$(IFS=,; echo "${ARRAY[*]}")
           echo "Joined array: ${JOINED}"
 
       - name: Use toJSON and fromJSON functions
         run: |
           ORIGINAL_ARRAY=("Item1" "Item2" "Item3")
-          JSON_ARRAY=${{ toJSON(ORIGINAL_ARRAY) }}
-          CONVERTED_ARRAY=$(fromJSON("${JSON_ARRAY}"))
-          echo "Original array: ${ORIGINAL_ARRAY}"
-          echo "Converted array: ${CONVERTED_ARRAY}"
+          JSON_ARRAY=$(echo "${ORIGINAL_ARRAY[@]}" | jq -c -R .)
+          CONVERTED_ARRAY=($(echo "${JSON_ARRAY}" | jq -r -c 'split("\n")' | tr -d '[]," '))
+          echo "Original array: ${ORIGINAL_ARRAY[@]}"
+          echo "Converted array: ${CONVERTED_ARRAY[@]}"
 
       - name: Use hashFiles function
         run: |
-          HASH=$(hashFiles('**/*'))
+          HASH=$(find . -type f -exec sha256sum {} + | sort -k 2 | sha256sum | cut -d ' ' -f 1)
           echo "Hash of all files: ${HASH}"
