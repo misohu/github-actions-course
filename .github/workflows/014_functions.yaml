@@ -26,15 +26,15 @@ jobs:
 
       - name: Use contains function
         run: | 
-          echo "${{ contains('Hello', env.MESSAGE) }}"
+          echo "${{ contains(env.MESSAGE, 'Hello') }}"
 
       - name: Use startsWith function
         run: | 
-          echo "${{ startsWith('This', env.FILE_CONTENT) }}"
+          echo "${{ startsWith(env.FILE_CONTENT, 'This') }}"
 
       - name: Use endsWith function
         run: | 
-          echo "${{ endsWith('file.', env.FILE_CONTENT) }}"
+          echo "${{ endsWith(env.FILE_CONTENT, 'file.') }}"
 
       - name: Use format function
         run: | 
@@ -45,16 +45,14 @@ jobs:
           echo "${{ join(', ', env.ARRAY) }}"
 
       - name: Use toJSON function
+        id: tojson
         run: |
           echo "${{ toJSON(env.TEST_JSON_DATA) }}"
+          ${{ toJSON(env.TEST_JSON_DATA) }} >> $GITHUB_OUTPUT
 
       - name: Use fromJSON function
         run: |
-          ORIGINAL_ARRAY=("Item1" "Item2" "Item3")
-          JSON_ARRAY=${{ toJSON(env.TEST_JSON_DATA) }}
-          CONVERTED_ARRAY=$(fromJSON "${JSON_ARRAY}")
-          echo "Original array: ${ORIGINAL_ARRAY[@]}"
-          echo "Converted array: ${CONVERTED_ARRAY[@]}"
+          echo "${{ fromJSON(steps.tojson.outputs) }}"
 
       - name: Use hashFiles function
         run: |
