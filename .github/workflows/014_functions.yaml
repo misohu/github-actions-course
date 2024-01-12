@@ -19,11 +19,6 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Create Sample File
-        run: |
-          echo ${{ env.FILE_CONTENT }} > sample.txt
-          cat sample.txt
-
       - name: Use contains function
         run: | 
           echo "${{ contains(env.MESSAGE, 'Hello') }}"
