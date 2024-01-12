@@ -37,7 +37,7 @@ jobs:
 
       - name: Use format function
         run: | 
-          echo "Formatted Message: ${{ format('Formatted: {}', env.MESSAGE) }}"
+          echo "Formatted Message: ${{ format('Formatted: {0}', env.MESSAGE) }}"
 
       - name: Use join function
         run: | 
