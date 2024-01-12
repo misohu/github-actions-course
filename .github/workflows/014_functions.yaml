@@ -48,7 +48,7 @@ jobs:
 
       - name: Use fromJSON function
         run: |
-          ${{ fromJSON(steps.tojson.outputs.result) }}
+          echo "${{ fromJSON(steps.tojson.outputs.result) }}"
         
       - name: Use join function
         run: | 
