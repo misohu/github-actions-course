@@ -52,7 +52,7 @@ jobs:
         
       - name: Use join function
         run: | 
-          echo "${{ join(toJSON(env.ARRAY), ', ') }}"
+          echo "${{ join(env.ARRAY, ' ') }}"
 
       - name: Use hashFiles function
         run: |
