@@ -1,0 +1,65 @@
+name: Build with Functions
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set Variables
+        run: |
+          # Set some variables for demonstration
+          MESSAGE="Hello, World!"
+          FILE_CONTENT="This is the content of the file."
+
+      - name: Use contains function
+        run: |
+          if contains('Hello', ${{ env.MESSAGE }}); then
+            echo "Message contains 'Hello'"
+          else
+            echo "Message does not contain 'Hello'"
+          fi
+
+      - name: Use startsWith function
+        run: |
+          if startsWith('This', ${{ env.FILE_CONTENT }}); then
+            echo "File content starts with 'This'"
+          else
+            echo "File content does not start with 'This'"
+          fi
+
+      - name: Use endsWith function
+        run: |
+          if endsWith('file.', ${{ env.FILE_CONTENT }}); then
+            echo "File content ends with 'file.'"
+          else
+            echo "File content does not end with 'file.'"
+          fi
+
+      - name: Use format function
+        run: |
+          FORMATTED_MESSAGE=$(format('Formatted: {}', ${{ env.MESSAGE }}))
+          echo "${FORMATTED_MESSAGE}"
+
+      - name: Use join function
+        run: |
+          ARRAY=("Item1" "Item2" "Item3")
+          JOINED=$(join(', ', ${{ toJSON(ARRAY) }}))
+          echo "Joined array: ${JOINED}"
+
+      - name: Use toJSON and fromJSON functions
+        run: |
+          ORIGINAL_ARRAY=("Item1" "Item2" "Item3")
+          JSON_ARRAY=${{ toJSON(ORIGINAL_ARRAY) }}
+          CONVERTED_ARRAY=$(fromJSON("${JSON_ARRAY}"))
+          echo "Original array: ${ORIGINAL_ARRAY}"
+          echo "Converted array: ${CONVERTED_ARRAY}"
+
+      - name: Use hashFiles function
+        run: |
+          HASH=$(hashFiles('**/*'))
+          echo "Hash of all files: ${HASH}"
