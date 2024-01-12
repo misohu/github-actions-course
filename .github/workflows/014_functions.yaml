@@ -12,6 +12,7 @@ jobs:
     env:
       MESSAGE: 'Hello, World!'
       FILE_CONTENT: 'This is the content of the file.'
+      ARRAY: ('element1', 'element2', 'element3')
 
     steps:
       - name: Checkout Repository
@@ -40,16 +41,16 @@ jobs:
 
       - name: Use join function
         run: | 
-          echo "Joined array: ${{ join(', ', ['Item1', 'Item2', 'Item3']) }}"
+          echo "Joined array: ${{ join(', ', env.ARRAY) }}"
 
       - name: Use toJSON function
         run: |
-          echo "JSON representation of array: ${{ toJSON(['Item1', 'Item2', 'Item3']) }}"
+          echo "JSON representation of array: ${{ toJSON(env.ARRAY) }}"
 
       - name: Use fromJSON function
         run: |
           ORIGINAL_ARRAY=("Item1" "Item2" "Item3")
-          JSON_ARRAY=$(echo "${ORIGINAL_ARRAY[@]}" | jq -c -R .)
+          JSON_ARRAY=${{ toJSON(env.ARRAY) }}
           CONVERTED_ARRAY=$(fromJSON "${JSON_ARRAY}")
           echo "Original array: ${ORIGINAL_ARRAY[@]}"
           echo "Converted array: ${CONVERTED_ARRAY[@]}"
