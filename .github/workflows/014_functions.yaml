@@ -48,11 +48,11 @@ jobs:
         id: tojson
         run: |
           echo "${{ toJSON(env.TEST_JSON_DATA) }}"
-          ${{ toJSON(env.TEST_JSON_DATA) }} >> $GITHUB_OUTPUT
+          echo "result=${{ toJSON(env.TEST_JSON_DATA) }}" >> $GITHUB_OUTPUT
 
       - name: Use fromJSON function
         run: |
-          echo "${{ fromJSON(steps.tojson.outputs) }}"
+          echo "${{ fromJSON(steps.tojson.outputs.result) }}"
 
       - name: Use hashFiles function
         run: |
