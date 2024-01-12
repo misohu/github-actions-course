@@ -1,64 +1,59 @@
-name: Build with Functions
+name: Functions Demo
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
-  build:
+  demo:
     runs-on: ubuntu-latest
+
+    env:
+      MESSAGE: 'Hello, World!'
+      FILE_CONTENT: 'This is the content of the file.'
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Set Variables
-        id: set-vars
-        run: echo "MESSAGE=Hello, World!\nFILE_CONTENT=This is the content of the file." >> $GITHUB_ENV
+      - name: Create Sample File
+        run: |
+          echo ${{ env.FILE_CONTENT }} > sample.txt
+          cat sample.txt
 
       - name: Use contains function
-        run: |
-          if echo "${{ env.MESSAGE }}" | grep -q "Hello"; then
-            echo "Message contains 'Hello'"
-          else
-            echo "Message does not contain 'Hello'"
-          fi
+        run: | 
+          echo "Contains 'Hello': ${{ contains('Hello', env.MESSAGE) }}"
 
       - name: Use startsWith function
-        run: |
-          if [[ "${{ env.FILE_CONTENT }}" == This* ]]; then
-            echo "File content starts with 'This'"
-          else
-            echo "File content does not start with 'This'"
-          fi
+        run: | 
+          echo "Starts with 'This': ${{ startsWith('This', env.FILE_CONTENT) }}"
 
       - name: Use endsWith function
-        run: |
-          if [[ "${{ env.FILE_CONTENT }}" == *file. ]]; then
-            echo "File content ends with 'file.'"
-          else
-            echo "File content does not end with 'file.'"
-          fi
+        run: | 
+          echo "Ends with 'file.': ${{ endsWith('file.', env.FILE_CONTENT) }}"
 
       - name: Use format function
-        run: |
-          FORMATTED_MESSAGE=$(echo "Formatted: ${{ env.MESSAGE }}")
-          echo "${FORMATTED_MESSAGE}"
+        run: | 
+          echo "Formatted Message: ${{ format('Formatted: {}', env.MESSAGE) }}"
 
       - name: Use join function
-        run: |
-          ARRAY=("Item1" "Item2" "Item3")
-          JOINED=$(IFS=,; echo "${ARRAY[*]}")
-          echo "Joined array: ${JOINED}"
+        run: | 
+          echo "Joined array: ${{ join(', ', ['Item1', 'Item2', 'Item3']) }}"
 
-      - name: Use toJSON and fromJSON functions
+      - name: Use toJSON function
+        run: |
+          echo "JSON representation of array: ${{ toJSON(['Item1', 'Item2', 'Item3']) }}"
+
+      - name: Use fromJSON function
         run: |
           ORIGINAL_ARRAY=("Item1" "Item2" "Item3")
           JSON_ARRAY=$(echo "${ORIGINAL_ARRAY[@]}" | jq -c -R .)
-          CONVERTED_ARRAY=($(echo "${JSON_ARRAY}" | jq -r -c 'split("\n")' | tr -d '[]," '))
+          CONVERTED_ARRAY=$(fromJSON "${JSON_ARRAY}")
           echo "Original array: ${ORIGINAL_ARRAY[@]}"
           echo "Converted array: ${CONVERTED_ARRAY[@]}"
 
       - name: Use hashFiles function
         run: |
-          HASH=$(find . -type f -exec sha256sum {} + | sort -k 2 | sha256sum | cut -d ' ' -f 1)
-          echo "Hash of all files: ${HASH}"
+          echo "Hash of all files: ${{ hashFiles('**') }}"
