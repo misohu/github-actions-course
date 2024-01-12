@@ -52,7 +52,7 @@ jobs:
         
       - name: Use join function
         run: | 
-          echo "${{ join(', ', steps.tojson.outputs.result.numbers) }}"
+          echo "${{ join(steps.tojson.outputs.result.numbers), ', ' }}"
 
       - name: Use hashFiles function
         run: |
