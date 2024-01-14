@@ -1,0 +1,22 @@
+name: Workflow with Custom Docker Action
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Run Custom Action
+        uses: ./.github/actions/docker-action
+        with:
+          name: 'John'
+        id: custom-action
+
+      - name: Print Processed Name
+        run: | 
+          echo "Processed Name: ${{ steps.custom-action.outputs.processed-name }}"

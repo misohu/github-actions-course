@@ -1,0 +1,15 @@
+name: 'Simple param action'
+description: 'Prints the argument and stores it in the file'
+inputs:
+  name:
+    description: 'First argument value'
+    required: true
+    default: 'Michal'
+outputs:
+  processed-name:
+    description:  'Processed name'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+  - ${{ inputs.name }}
