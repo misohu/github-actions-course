@@ -1,3 +1,4 @@
+# Don't forget to run git update-index --chmod=+x entrypoint.sh to enable execution of action
 name: Workflow with Custom Docker Action
 
 on:
