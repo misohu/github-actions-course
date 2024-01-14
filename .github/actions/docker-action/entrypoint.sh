@@ -4,4 +4,4 @@ echo "Workdir:"
 ls -la
 name=$1
 echo "$name" > name.txt
-echo "$name" >> $GITHUB_OUTPUT
+echo "processed-name=$name" >> $GITHUB_OUTPUT
