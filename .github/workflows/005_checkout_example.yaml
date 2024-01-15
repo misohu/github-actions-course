@@ -1,4 +1,4 @@
-name: Checkout example
+name: 05 Checkout example
 
 on:
   workflow_dispatch:
@@ -10,9 +10,12 @@ jobs:
     steps:
       - name: List space
         # workspace is  a special variable containing the path to the working directory on the runner machine
+        # github is a context which we can access in expression ${{}}. We will talk more about contexts later.
         run: ls ${{ github.workspace }}
+      
       - name: Checkout source code 
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4 # Here we say we want to use github action from repo github.com/actions/checkout
+      
       - name: List space again
         run: ls ${{ github.workspace }}
 
