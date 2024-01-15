@@ -1,0 +1,26 @@
+name: 'Simple param action Python'
+description: 'Prints the argument and stores it in the file'
+inputs:
+  name:
+    description: 'First argument value'
+    required: true
+    default: 'Michal'
+outputs:
+  processed-name:
+    description:  'Processed name'
+    value: ${{ steps.process-name.outputs.processed-name }} # This is different. We need to specify which step has the output/
+runs:
+  using: 'composite'
+  steps:
+    - name: Install Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'  
+    - name: Pass Inputs to Shell
+      run: |
+        echo "INPUT_NAME=${{ inputs.name }}" >> $GITHUB_ENV
+      shell: bash
+    - name: Fetch the number's square
+      id: process-name
+      run: python main.py
+      shell: bash

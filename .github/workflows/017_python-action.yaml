@@ -1,0 +1,25 @@
+# Don't forget to run git update-index --chmod=+x entrypoint.sh to enable execution of action
+name: Workflow with Custom JS Action
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Run Custom Action
+        uses: ./.github/actions/python-action
+        with:
+          name: 'John'
+        id: custom-action
+
+      - name: Print Processed Name
+        run: | 
+          echo "Processed Name: ${{ steps.custom-action.outputs.processed-name }}"
+          echo "workdir"
+          ls -la
