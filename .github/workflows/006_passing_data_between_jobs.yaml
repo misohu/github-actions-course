@@ -9,7 +9,7 @@ jobs:
     steps:
       - name: Create data
         id: sender
-        # this step will set the output name for this step to Michal
+        # This step will set the output name for this step to Michal
         run: |
           echo "name=Michal" >> $GITHUB_OUTPUT
 
@@ -18,5 +18,6 @@ jobs:
     needs: ["data-sender"] # In order to have data for receiver sender needs to first produce some data.
     steps:
       - name: Receive data
+        # Notice how we use needs object to access the sender job's outputs
         run: | 
-          echo ${{ jobs.data-sender.outputs.name }}
+          echo ${{ needs.data-sender.outputs.name }} 
