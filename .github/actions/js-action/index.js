@@ -1,5 +1,6 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
+const fs = require('fs');
 
 try {
   const name = core.getInput('name');  // name is from action.yaml (the input)
