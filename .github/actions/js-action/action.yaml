@@ -1,0 +1,13 @@
+name: 'Simple param action JS'
+description: 'Prints the argument and stores it in the file'
+inputs:
+  name:
+    description: 'First argument value'
+    required: true
+    default: 'Michal'
+outputs:
+  processed-name:
+    description:  'Processed name'
+runs:
+  using: 'node20'
+  main: 'index.js'
