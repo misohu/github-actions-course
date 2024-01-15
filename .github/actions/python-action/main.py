@@ -12,8 +12,11 @@ def main():
 
         with open('name.txt', 'w') as file:
             file.write(name)
-
-        print(f'::set-output name=processed-name::{name}')
+        
+        with open(os.getenv('GITHUB_OUTPUT', '/dev/null'), 'a') as file:
+            file.write(f'processed-name={name}\n')
+        
+        # print(f'::set-output name=processed-name::{name}') # This is the old syntax 
 
     except Exception as e:
         print(f'::error::{e}')
