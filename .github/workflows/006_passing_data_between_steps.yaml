@@ -1,10 +1,10 @@
-name: 06 Passing Data Between Jobs
+name: 06 Passing Data Between Steps
 
 on:
   workflow_dispatch:
 
 jobs:
-  data-sender:
+  data-passing:
     runs-on: ubuntu-22.04
     steps:
       - name: Create data
@@ -13,10 +13,6 @@ jobs:
         run: |
           echo "name=Michal" >> $GITHUB_OUTPUT
 
-  data-receiver:
-    runs-on: ubuntu-22.04
-    needs: ["data-sender"] # In order to have data for receiver sender needs to first produce some data.
-    steps:
       - name: Receive data
         run: | 
-          echo ${{ jobs.data-sender.outputs.name }}
+          echo ${{ steps.sender.outputs.name }}
