@@ -1,4 +1,4 @@
-name: Matrix example 
+name: 09 Matrix 
 
 on:
   workflow_dispatch:
@@ -14,12 +14,15 @@ jobs:
     steps:
       - name: Checkout source code 
         uses: actions/checkout@v4
+
       - name: Install Python
         uses: actions/setup-python@v4
         with:
           python-version: "${{ matrix.python-version }}"
+
       - name: Install tox
         run: pip install tox
+        
       - name: Run unit tests
         run: |
           cd backend
