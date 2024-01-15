@@ -1,4 +1,4 @@
-name: Example CI
+name: 10 Example CI
 
 on:
   workflow_dispatch:
@@ -48,14 +48,17 @@ jobs:
     steps:
       - name: Checkout source code 
         uses: actions/checkout@v4
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+
       - name: Build and export
         uses: docker/build-push-action@v5
         with:
           context: backend
           tags: ${{ vars.DOCKER_HUB_IMAGE }}:${{ inputs.image-tag }} 
           outputs: type=docker,dest=/tmp/image.tar
+
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
