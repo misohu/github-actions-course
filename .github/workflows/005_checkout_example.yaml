@@ -1,4 +1,4 @@
-name: 05 Checkout example
+name: 05 Checkout Example
 
 on:
   workflow_dispatch:
