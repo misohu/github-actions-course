@@ -1,4 +1,4 @@
-name: Event examle 2
+name: 04 workflow_run
 
 on:
   workflow_run:

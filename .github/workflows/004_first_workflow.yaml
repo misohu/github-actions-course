@@ -1,4 +1,4 @@
-name: Event examle 1
+name: 04 workflow_dispatch
 
 on:
   workflow_dispatch:
