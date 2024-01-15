@@ -1,4 +1,4 @@
-name: Manual Trigger Example
+name: "01 Hello World example"
 
 on:
   workflow_dispatch:  # This event triggers the workflow manually
