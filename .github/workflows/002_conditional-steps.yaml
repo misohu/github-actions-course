@@ -1,4 +1,4 @@
-name: Conditional Steps Example
+name: 02 Conditional Steps Example
 
 on:
   workflow_dispatch:  # This event triggers the workflow manually
@@ -9,11 +9,14 @@ jobs:
 
     steps:
       - name: Step 1 - Exit Code 0
+        id: successful_step
         run: |
           echo "exit code 0"
           exit 0  # Success (exit code 0)
+        shell: bash  # If you want you can change the shell per step
 
       - name: Step 2 - Execute If Previous Succeeded
+        # The syntax bellow ${{}} is expression syntax in github actions (we will cover this later).
         if: ${{ success() }}  # Only run this step if the previous step succeeded
         run: |
           echo "Running because the previous step has succeeded"
