@@ -1,4 +1,4 @@
-name: 02 Conditional Steps Example
+name: 02 Conditional Steps
 
 on:
   workflow_dispatch:  # This event triggers the workflow manually
@@ -17,6 +17,7 @@ jobs:
 
       - name: Step 2 - Execute If Previous Succeeded
         # The syntax bellow ${{}} is expression syntax in github actions (we will cover this later).
+        # Success and failure are status expressions.
         if: ${{ success() }}  # Only run this step if the previous step succeeded
         run: |
           echo "Running because the previous step has succeeded"

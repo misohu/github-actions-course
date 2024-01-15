@@ -1,4 +1,4 @@
-name: Parallel Jobs Example
+name: 03 Parallel Jobs
 
 on:
   workflow_dispatch:  # This event triggers the workflow manually
