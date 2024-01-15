@@ -22,5 +22,5 @@ runs:
       shell: bash
     - name: Fetch the number's square
       id: process-name
-      run: python main.py
+      run: python ./.github/actions/python-action/main.py
       shell: bash
