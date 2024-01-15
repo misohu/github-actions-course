@@ -11,13 +11,13 @@ jobs:
       - name: List space
         # workspace is  a special variable containing the path to the working directory on the runner machine
         # github is a context which we can access in expression ${{}}. We will talk more about contexts later.
-        run: ls ${{ github.workspace }}
+        run: ls -la ${{ github.workspace }}
       
       - name: Checkout source code 
         uses: actions/checkout@v4 # Here we say we want to use github action from repo github.com/actions/checkout
       
       - name: List space again
-        run: ls ${{ github.workspace }}
+        run: ls -la ${{ github.workspace }}
 
 
 
