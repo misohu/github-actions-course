@@ -1,4 +1,4 @@
-name: 20 Debugging Demo
+name: 20 Debugging
 
 on:
   workflow_dispatch:
