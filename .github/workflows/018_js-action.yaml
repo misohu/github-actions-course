@@ -1,5 +1,5 @@
 # Don't forget to run git update-index --chmod=+x entrypoint.sh to enable execution of action
-name: Workflow with Custom Docker Action
+name: 18 Custom JS Action
 
 on:
   workflow_dispatch:
@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Run Custom Action
-        uses: ./.github/actions/docker-action
+        uses: ./.github/actions/js-action
         with:
           name: 'John'
         id: custom-action

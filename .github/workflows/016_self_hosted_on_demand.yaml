@@ -1,4 +1,4 @@
-name: Self-hosted demo 2
+name: 16 On Demand Self-hosted Runners
 
 on:
   workflow_dispatch:
