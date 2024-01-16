@@ -1,0 +1,26 @@
+name: 20 Debugging Demo
+
+on:
+  workflow_dispatch:
+
+jobs:
+  debugging-demo: 
+    runs-on: ubuntu-20.04 # Action authors recommend 20.04
+    
+    steps:
+      - name: Maximise GH runner space
+        uses: easimon/maximize-build-space@v8
+        with:
+          root-reserve-mb: 40960  # space to keep for root in MB
+          remove-dotnet: 'true'
+          remove-haskell: 'true'
+          remove-android: 'true'
+          remove-codeql: 'true'
+          remove-docker-images: 'true'
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+        timeout-minutes: 15 # This will allow to open a sesion for max 15 minutes
