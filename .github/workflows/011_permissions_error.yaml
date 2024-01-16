@@ -3,8 +3,14 @@ name: "11 Permissions"
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read  # I can only read commits/tags I cannot create ones from this workflow 
+
 jobs:
   example-job:
+    # It can be also here for job scope
+    # permissions:
+    #   contents: read
     runs-on: ubuntu-latest
 
     steps:
