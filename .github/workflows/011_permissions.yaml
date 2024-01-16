@@ -5,6 +5,8 @@ on:
 
 jobs:
   example-job:
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
 
     steps:
