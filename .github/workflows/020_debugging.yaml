@@ -1,0 +1,16 @@
+name: 20 Debugging Demo
+
+on:
+  workflow_dispatch:
+
+jobs:
+  debugging-demo:
+    runs-on: ubuntu-22.04
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+        timeout-minutes: 15 # This will allow to open a sesion for max 15 minutes
