@@ -1,5 +1,5 @@
 # example 2: on merge to master from pull request (recommended)
-name: 11 Pat Bump tag
+name: 11 Pat Bump tag No Token
 on:
   pull_request:
     types:
@@ -20,5 +20,4 @@ jobs:
     - name: Bump version and push tag
       uses: anothrNick/github-tag-action@1.64.0 
       env:
-        GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }} # if you don't want to set write permissions use a PAT token
         WITH_V: true
