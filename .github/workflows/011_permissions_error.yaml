@@ -1,4 +1,4 @@
-name: "11 Permissions"
+name: "11 Permissions Error"
 
 on:
   workflow_dispatch:
