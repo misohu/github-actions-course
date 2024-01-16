@@ -6,7 +6,7 @@ on:
 jobs:
   start-runner:
     name: Start self-hosted EC2 runner
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-22.04 # You can also use small always o self-hosted runner
     outputs:
       label: ${{ steps.start-ec2-runner.outputs.label }}
       ec2-instance-id: ${{ steps.start-ec2-runner.outputs.ec2-instance-id }}
@@ -16,7 +16,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          aws-region: ${{ secrets.AWS_REGION }}  # eu-central-1
 
       - name: Start EC2 runner
         id: start-ec2-runner
@@ -24,7 +24,7 @@ jobs:
         with:
           mode: start
           github-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
-          ec2-image-id: ${{ vars.AWS_EC2_IMAGE_ID }}
+          ec2-image-id: ${{ vars.AWS_EC2_IMAGE_ID }} # ubuntu:22.04
           ec2-instance-type: ${{ vars.AWS_EC2_INSTANCE_TYPE }}
           subnet-id: ${{ vars.AWS_DEFAULT_SUBNET_ID }}
           security-group-id: ${{ vars.AWS_SECURITY_GROUP_ID }}

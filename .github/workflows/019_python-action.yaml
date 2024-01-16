@@ -1,5 +1,5 @@
 # Don't forget to run git update-index --chmod=+x entrypoint.sh to enable execution of action
-name: Workflow with Custom Python Action
+name: 19 Custom Python Action
 
 on:
   workflow_dispatch:
