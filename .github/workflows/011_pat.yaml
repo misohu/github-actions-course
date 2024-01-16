@@ -11,8 +11,8 @@ jobs:
   build:
     if: ${{  github.event.pull_request.merged == true }} # Accessing the context for github 
     runs-on: ubuntu-22.04
-    # permissions:
-    #   contents: write
+    permissions:
+      contents: write
     steps:
     - uses: actions/checkout@v3
       with:
@@ -22,6 +22,6 @@ jobs:
     - name: Bump version and push tag
       uses: anothrNick/github-tag-action@1.64.0 
       env:
-        # GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }} # if you don't want to set write permissions use a PAT token
+        GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }} # if you don't want to set write permissions use a PAT token
         WITH_V: true
         PRERELEASE: true
