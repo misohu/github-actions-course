@@ -1,5 +1,4 @@
-# example 2: on merge to master from pull request (recommended)
-name: 11 Pat Bump tag No Token
+name: 12 Pat Bump tag No Token
 on:
   pull_request:
     types:

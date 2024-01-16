@@ -1,4 +1,4 @@
-name: Functions Demo
+name: 14 Expressions And Functions
 
 on:
   workflow_dispatch:

@@ -1,4 +1,4 @@
-name: Build variables
+name: 13 Github context
 
 on:
   workflow_dispatch:
