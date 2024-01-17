@@ -49,7 +49,7 @@ EOF
 resource "aws_security_group" "allow_8080" {
   name        = "allow_8080"
   description = "Allow inbound traffic on port 8080"
-  vpc_id      = example_server.ec2_instance.vpc_security_group_ids[0]
+  vpc_id      = aws_instance.example_server.vpc_security_group_ids[0]
 
   tags = {
     Name = "GithubActionsExample"
@@ -64,5 +64,5 @@ resource "aws_security_group" "allow_8080" {
 }
 
 output "public_ip" {
-  value = example_server.ec2_instance.public_ip
+  value = aws_instance.example_server.public_ip
 }
