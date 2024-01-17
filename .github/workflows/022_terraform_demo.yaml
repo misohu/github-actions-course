@@ -7,6 +7,9 @@ jobs:
   deploy-ec2:
     runs-on: ubuntu-22.04
 
+    env:
+      TF_ACTION_WORKING_DIR: 'terraform'
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
