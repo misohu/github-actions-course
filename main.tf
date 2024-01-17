@@ -60,7 +60,7 @@ EOF
   }
 
   key_name = "dektop-eu-central-1"
-  security_groups = [aws_security_group.allow_8080.id]
+  vpc_security_group_ids = [aws_security_group.allow_8080.id]
 }
 
 output "public_ip" {
