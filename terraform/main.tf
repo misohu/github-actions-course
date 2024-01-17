@@ -2,19 +2,34 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 4.16"
+      version = "~> 5.0"
     }
   }
-
-  required_version = ">= 1.2.0"
 }
 
+# Configure the AWS Provider
 provider "aws" {
-  region  = "eu-central-1"
+  region = "eu-central-1"
+}
+
+data "aws_ami" "ubuntu" {
+  most_recent = true
+
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  owners = ["099720109477"] # Canonical
 }
 
 resource "aws_instance" "example_server" {
-  ami           = "ami-0faab6bdbac9486fb "
+  ami           = data.aws_ami.ubuntu.id
   instance_type = "t2.large"
   user_data = <<EOF
 #!/bin/bash
@@ -27,7 +42,7 @@ sudo snap enable docker
 EOF
 
   tags = {
-    Name = "JacksBlogExample"
+    Name = "GithubActionsExample"
   }
 }
 
@@ -35,6 +50,10 @@ resource "aws_security_group" "allow_8080" {
   name        = "allow_8080"
   description = "Allow inbound traffic on port 8080"
   vpc_id      = example_server.ec2_instance.vpc_security_group_ids[0]
+
+  tags = {
+    Name = "GithubActionsExample"
+  }
 
   ingress {
     from_port = 8080
