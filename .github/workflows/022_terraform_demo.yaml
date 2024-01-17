@@ -30,7 +30,7 @@ jobs:
         run: terraform validate -no-color
       
       - name: Terraform Apply
-        id: validate
+        id: apply
         run: terraform apply
       
       # - name: Terraform Init
