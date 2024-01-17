@@ -29,7 +29,7 @@ data "aws_ami" "ubuntu" {
 }
 
 resource "aws_security_group" "allow_8080" {
-  name        = "example"
+  name        = "allow_8080"
   description = "Allow inbound traffic on port 8080"
 
   ingress {
@@ -60,7 +60,7 @@ EOF
   }
 
   key_name = "dektop-eu-central-1"
-  security_groups = [aws_security_group.example.id]
+  security_groups = [aws_security_group.allow_8080.id]
 }
 
 output "public_ip" {
