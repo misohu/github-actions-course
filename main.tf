@@ -30,13 +30,30 @@ data "aws_ami" "ubuntu" {
 
 resource "aws_security_group" "allow_8080" {
   name        = "allow_8080"
-  description = "Allow inbound traffic on port 8080"
+  description = "Allow inbound traffic on port 8080, SSH inbound, and all outbound traffic"
 
+  // Ingress rule for port 8080
   ingress {
     from_port   = 8080
     to_port     = 8080
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]  # You might want to restrict this to a specific IP range for security reasons
+  }
+
+  // Ingress rule for SSH (port 22)
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]  # You might want to restrict this to a specific IP range for security reasons
+  }
+
+  // Egress rule for all outbound traffic
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   // Add any other necessary configuration here
@@ -48,11 +65,7 @@ resource "aws_instance" "example_server" {
   user_data = <<EOF
 #!/bin/bash
 sudo snap install docker
-sudo addgroup --system docker
-sudo adduser ubuntu docker
-newgrp docker
-sudo snap disable docker
-sudo snap enable docker
+docker run -p 8080:80 -d misohu/fast-api-example:latest
 EOF
 
   tags = {
