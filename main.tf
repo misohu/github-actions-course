@@ -65,6 +65,7 @@ resource "aws_instance" "example_server" {
   user_data = <<EOF
 #!/bin/bash
 sudo snap install docker
+sleep 30
 sudo docker run -p 8080:80 -d misohu/fast-api-example:latest
 EOF
 
