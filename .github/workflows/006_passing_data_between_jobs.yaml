@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Create data
-        id: sender
+        id: data-sender
         # This step will set the output name for this step to Michal
         run: |
           echo "name=Michal" >> $GITHUB_OUTPUT
