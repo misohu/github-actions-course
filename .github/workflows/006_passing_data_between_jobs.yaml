@@ -12,6 +12,8 @@ jobs:
         # This step will set the output name for this step to Michal
         run: |
           echo "name=Michal" >> $GITHUB_OUTPUT
+    outputs:
+      name: ${{ steps.data-sender.outputs.name }}
 
   data-receiver:
     runs-on: ubuntu-22.04
