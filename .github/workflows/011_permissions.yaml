@@ -17,7 +17,7 @@ jobs:
         run: |
           touch new-file.txt
           git config --global user.name 'Michal Hucko'
-          git config --global user.email 'hucko.miso@gmail.com'
+          git config --global user.email 'test@gmail.com'
           git add new-file.txt
           git commit -m "Attempt to write"
           git push origin ${{ github.ref }}
