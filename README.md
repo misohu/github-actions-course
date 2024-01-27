@@ -1,6 +1,6 @@
 # Git + GitHub Actions for CI/CD Mastery
 
-Welcome to the repository for the "Git + GitHub Actions for CI/CD Mastery" Udemy course! This repository contains example workflows and resources related to the course.
+Welcome to the repository for the ["Git + GitHub Actions for CI/CD Mastery" Udemy course!](https://www.udemy.com/course/draft/5785578/?referralCode=EE6967428509B5A0D71C) This repository contains example workflows and resources related to the course.
 
 ## Workflows
 
